@@ -59,7 +59,7 @@ percentage_difference = round((difference / day_before_yesterday_close) * 100,2)
 
 if abs(percentage_difference) > 5:
 
-    articles = news_data["articles"]
+    articles = news_data["articles"][:6]
 
     random_article = random.choice(articles)
 
@@ -83,7 +83,7 @@ if abs(percentage_difference) > 5:
         print("TLS OK")
         connection.login(MY_EMAIL, MY_PASSWORD)  
         print("Login OK")
-        connection.send_message(msg=msg, from_addr=MY_EMAIL, to_addrs=RECIPIENT_EMAIL)
+        connection.send_message(msg=msg)
         print("Email gönderildi")
         time.sleep(5)
         
