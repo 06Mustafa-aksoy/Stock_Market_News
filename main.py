@@ -3,15 +3,20 @@ import smtplib
 from email.message import EmailMessage
 import time
 import random
+import os
+from dotenv import load_dotenv
 
-STOCK_NAME = "TSLA"
-COMPANY_NAME = "Tesla Inc"
-NEWS_API_KEY = "4d012ab2a03a42ab955e992445cefaa5"
-STOCK_API_KEY = "EVN4NEAQ183OUPWT"
-STOCK_ENDPOINT = "https://www.alphavantage.co/query?"
-NEWS_ENDPOINT =  "https://newsapi.org/v2/everything"
-MY_EMAIL = "mustafaa.test34@gmail.com"
-MY_PASSWORD = "qqdipskttbxyvgug"
+load_dotenv()
+
+STOCK_NAME = os.getenv("STOCK_NAME", "TSLA")
+COMPANY_NAME = os.getenv("COMPANY_NAME", "Tesla Inc")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+STOCK_API_KEY = os.getenv("STOCK_API_KEY")
+STOCK_ENDPOINT = os.getenv("STOCK_ENDPOINT", "https://www.alphavantage.co/query?")
+NEWS_ENDPOINT = os.getenv("NEWS_ENDPOINT", "https://newsapi.org/v2/everything")
+MY_EMAIL = os.getenv("MY_EMAIL")
+MY_PASSWORD = os.getenv("MY_PASSWORD")
+RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")
 
 
 stock_paramaters = {
@@ -58,9 +63,6 @@ if abs(percentage_difference) > 5:
 
     random_article = random.choice(articles)
 
-   
-    #formatted_articles = [f"Headline : {up_down}{percentage_difference} % {article['title']} \n\nBrief : {article['description']}" for article in random_article]
-    
     formatted_article = (
     f"Headline: {up_down}{percentage_difference}% {random_article['title']}\n\n"
     f"Brief: {random_article['description']}"
@@ -71,7 +73,7 @@ if abs(percentage_difference) > 5:
     msg = EmailMessage()
     msg["Subject"] = "TESLA Borsa Güncel Durumu"
     msg["From"] = MY_EMAIL
-    msg["To"] = "mustafaksoy37@gmail.com"  
+    msg["To"] = RECIPIENT_EMAIL  
 
     msg.set_content(formatted_article)
 
@@ -79,9 +81,9 @@ if abs(percentage_difference) > 5:
         print("Bağlaniyor...")
         connection.starttls()
         print("TLS OK")
-        connection.login(MY_EMAIL,MY_PASSWORD)  
+        connection.login(MY_EMAIL, MY_PASSWORD)  
         print("Login OK")
-        connection.send_message(msg=msg,from_addr=MY_EMAIL,to_addrs="mustafaksoy37@gmail.com")
+        connection.send_message(msg=msg, from_addr=MY_EMAIL, to_addrs=RECIPIENT_EMAIL)
         print("Email gönderildi")
         time.sleep(5)
         
