@@ -2,7 +2,7 @@ name: Daily Stock News Email
 
 on:
   schedule:
-    - cron: '0 9 * * *'   # Her gün UTC saatiyle 09:00'da çalışır
+    - cron: '0 10 * * *'   # Her gün UTC saatiyle 10:00'da çalışır
   workflow_dispatch: {}
 
 jobs:
