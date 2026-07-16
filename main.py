@@ -1,7 +1,6 @@
 import requests
 import smtplib
 from email.message import EmailMessage
-import time
 import random
 import os
 from dotenv import load_dotenv
@@ -57,9 +56,9 @@ else:
 
 percentage_difference = round((difference / day_before_yesterday_close) * 100,2)
 
-if abs(percentage_difference) > 5:
+if abs(percentage_difference) > 2:
 
-    articles = news_data["articles"][:6]
+    articles = news_data["articles"][:8]
 
     random_article = random.choice(articles)
 
@@ -71,21 +70,21 @@ if abs(percentage_difference) > 5:
     print(formatted_article)
     
     msg = EmailMessage()
-    msg["Subject"] = "TESLA Borsa Güncel Durumu"
+    msg["Subject"] = "TESLA Stock New Situation"
     msg["From"] = MY_EMAIL
     msg["To"] = RECIPIENT_EMAIL  
 
     msg.set_content(formatted_article)
 
     with smtplib.SMTP("smtp.gmail.com", 587) as connection:
-        print("Bağlaniyor...")
+    
         connection.starttls()
-        print("TLS OK")
+        
         connection.login(MY_EMAIL, MY_PASSWORD)  
-        print("Login OK")
+        
         connection.send_message(msg=msg)
-        print("Email gönderildi")
-        time.sleep(5)
+      
+        
         
 
 
