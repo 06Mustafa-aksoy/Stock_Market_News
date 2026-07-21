@@ -56,7 +56,7 @@ else:
 
 percentage_difference = round((difference / day_before_yesterday_close) * 100,2)
 
-if abs(percentage_difference) > 2:
+if abs(percentage_difference) > 5:
 
     articles = news_data["articles"][:8]
 
